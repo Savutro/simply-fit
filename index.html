@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Workout Tracker</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <nav class="tabs" aria-label="Main">
+        <button class="tab is-active" type="button" data-view="exercises" aria-label="Excercises" title="Excercises">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6v12M18 6v12M3 9v6M21 9v6M6 12h12"/></svg>
+        </button>
+        <button class="tab" type="button" data-view="plans" aria-label="Plans" title="Plans">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+        </button>
+        <button class="tab" type="button" data-view="log" aria-label="Log" title="Log">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v5l3 2M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z"/></svg>
+        </button>
+        <button class="tab" type="button" data-view="history" aria-label="History" title="History">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5M12 7v5l3 2"/></svg>
+        </button>
+        <button class="tab" type="button" data-view="progress" aria-label="Stats" title="Stats">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M8 16v-5M12 16V8M16 16v-8M20 16v-3"/></svg>
+        </button>
+        <button class="tab" type="button" data-view="backup" aria-label="Backup" title="Backup">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M8 11l4 4 4-4M5 19h14"/></svg>
+        </button>
+      </nav>
+
+      <main>
+        <section class="view is-active" id="view-exercises" aria-labelledby="exercisesTitle">
+          <div class="view-header">
+            <div>
+              <h2 id="exercisesTitle">Exercises</h2>
+              <p id="exerciseCount">0 active exercises</p>
+            </div>
+            <button class="button" id="newExerciseButton" type="button">+ Exercise</button>
+          </div>
+
+          <div class="split-layout">
+            <aside class="side-panel" aria-label="Exercise index">
+              <div id="exerciseList" class="item-list"></div>
+            </aside>
+            <section class="workspace-panel" id="exerciseEditor" aria-live="polite"></section>
+          </div>
+        </section>
+
+        <section class="view" id="view-plans" aria-labelledby="plansTitle">
+          <div class="view-header">
+            <div>
+              <h2 id="plansTitle">Plans</h2>
+              <p id="planCount">0 active plans</p>
+            </div>
+            <button class="button" id="newPlanButton" type="button">+ Plan</button>
+          </div>
+
+          <div class="split-layout">
+            <aside class="side-panel" aria-label="Plan list">
+              <div id="planList" class="item-list"></div>
+            </aside>
+            <section class="workspace-panel" id="planEditor" aria-live="polite"></section>
+          </div>
+        </section>
+
+        <section class="view" id="view-log" aria-labelledby="logTitle">
+          <div class="view-header">
+            <div>
+              <h2 id="logTitle">Log Workout</h2>
+              <p id="logStatus">Choose a plan.</p>
+            </div>
+          </div>
+
+          <section class="workspace-panel log-picker">
+            <label class="field">
+              <span>Plan</span>
+              <select id="logPlanSelect"></select>
+            </label>
+            <button class="button" id="startLogButton" type="button">Start</button>
+          </section>
+
+          <section id="logEditor" class="log-editor" aria-live="polite"></section>
+        </section>
+
+        <section class="view" id="view-progress" aria-labelledby="progressTitle">
+          <div class="view-header">
+            <div>
+              <h2 id="progressTitle">Progress</h2>
+              <p id="progressStatus">No sessions yet.</p>
+            </div>
+          </div>
+
+          <section class="workspace-panel progress-panel">
+            <div class="progress-controls">
+              <label class="field">
+                <span>Exercise</span>
+                <select id="progressExerciseSelect"></select>
+              </label>
+              <label class="field">
+                <span>Metric</span>
+                <select id="progressMetricSelect">
+                  <option value="volume">Volume</option>
+                  <option value="bestWeight">Best weight</option>
+                  <option value="reps">Total reps</option>
+                  <option value="duration">Time</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>From</span>
+                <input id="progressFromDate" type="date">
+              </label>
+              <label class="field">
+                <span>To</span>
+                <input id="progressToDate" type="date">
+              </label>
+            </div>
+
+            <div id="progressSummary" class="stat-grid"></div>
+            <div id="progressChart" class="chart-card"></div>
+            <div id="progressTable" class="analytics-list"></div>
+          </section>
+        </section>
+
+        <section class="view" id="view-history" aria-labelledby="historyTitle">
+          <div class="view-header">
+            <div>
+              <h2 id="historyTitle">History</h2>
+              <p id="historyCount">0 sessions</p>
+            </div>
+          </div>
+          <section class="workspace-panel history-filters">
+            <label class="field">
+              <span>From</span>
+              <input id="historyFromDate" type="date">
+            </label>
+            <label class="field">
+              <span>To</span>
+              <input id="historyToDate" type="date">
+            </label>
+          </section>
+          <div id="historyList" class="history-list"></div>
+        </section>
+
+        <section class="view" id="view-backup" aria-labelledby="backupTitle">
+          <div class="view-header">
+            <div>
+              <h2 id="backupTitle">Backup</h2>
+              <p id="backupStats">0 plans, 0 sessions</p>
+            </div>
+          </div>
+          <section class="workspace-panel backup-panel">
+            <button class="button" id="exportButton" type="button">Export JSON</button>
+            <label class="button button-secondary" for="importInput">Import JSON</label>
+            <input id="importInput" class="visually-hidden" type="file" accept="application/json,.json">
+            <button class="button button-secondary" id="darkModeButton" type="button">Dark Mode</button>
+            <button class="button button-danger" id="resetButton" type="button">Clear Local Data</button>
+          </section>
+          <section class="workspace-panel about-panel" id="aboutPanel"></section>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast-region" aria-live="polite" aria-atomic="true">
+      <div id="toast" class="toast"></div>
+    </div>
+
+    <dialog id="welcomeDialog" class="welcome-dialog">
+      <form class="dialog-card" method="dialog">
+        <h2>Workout Tracker</h2>
+        <p>Create an exercise library, build plans from it, log workouts, and let completed sessions update the next plan targets.</p>
+        <ul>
+          <li>Exercises store setup notes.</li>
+          <li>Sets are structured for weight or time analytics.</li>
+          <li>Backups are JSON files in the Backup tab.</li>
+          <li>Stats show progress over a selected timeframe.</li>
+        </ul>
+        <button class="button" id="dismissWelcomeButton" type="submit">Got it</button>
+      </form>
+    </dialog>
+
+    <dialog id="confirmDialog" class="welcome-dialog confirm-dialog">
+      <form class="dialog-card confirm-card" method="dialog">
+        <h2 id="confirmTitle">Confirm</h2>
+        <p id="confirmMessage"></p>
+        <div class="confirm-actions">
+          <button class="button button-secondary" id="confirmCancelButton" type="button">Cancel</button>
+          <button class="button button-danger" id="confirmAcceptButton" type="button">Delete</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/icons.js"></script>
+    <script src="assets/js/app.js"></script>
+  </body>
+</html>
